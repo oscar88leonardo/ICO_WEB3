@@ -21,9 +21,8 @@ export default function Home() {
   // based on the Crypto Dev NFT's held by the user for which they havent claimed the tokens
   const [tokensToBeClaimed, setTokensToBeClaimed] = useState(zero);
   // balanceOfCryptoDevTokens keeps track of number of Crypto Dev tokens owned by an address
-  const [balanceOfCryptoDevTokens, setBalanceOfCryptoDevTokens] = useState(
-    zero
-  );
+  const [balanceOfCryptoDevTokens, setBalanceOfCryptoDevTokens] =
+    useState(zero);
   // amount of the tokens that the user wants to mint
   const [tokenAmount, setTokenAmount] = useState(zero);
   // tokensMinted is the total number of tokens that have been minted till now out of 10000(max total supply)
@@ -204,7 +203,11 @@ export default function Home() {
   const getOwner = async () => {
     try {
       const provider = await getProviderOrSigner();
-      const nftContract = new Contract(TOKEN_CONTRACT_ADDRESS, TOKEN_CONTRACT_ABI, provider);
+      const tokenContract = new Contract(
+        TOKEN_CONTRACT_ADDRESS,
+        TOKEN_CONTRACT_ABI,
+        provider
+      );
       // call the owner function from the contract
       const _owner = await tokenContract.owner();
       // we get signer to extract address of currently connected Metamask account
@@ -220,7 +223,7 @@ export default function Home() {
   };
 
   /**
-   * withdrawCoins: withdraws ether and tokens by calling 
+   * withdrawCoins: withdraws ether and tokens by calling
    * the withdraw function in the contract
    */
   const withdrawCoins = async () => {
@@ -240,7 +243,7 @@ export default function Home() {
     } catch (err) {
       console.error(err);
     }
-  }
+  };
 
   /**
    * Returns a Provider or Signer object representing the Ethereum RPC with or without the
@@ -260,11 +263,11 @@ export default function Home() {
     const provider = await web3ModalRef.current.connect();
     const web3Provider = new providers.Web3Provider(provider);
 
-    // If user is not connected to the Rinkeby network, let them know and throw an error
+    // If user is not connected to the Goerli network, let them know and throw an error
     const { chainId } = await web3Provider.getNetwork();
-    if (chainId !== 4) {
-      window.alert("Change the network to Rinkeby");
-      throw new Error("Change network to Rinkeby");
+    if (chainId !== 5) {
+      window.alert("Change the network to Goerli");
+      throw new Error("Change network to Goerli");
     }
 
     if (needSigner) {
@@ -297,7 +300,7 @@ export default function Home() {
       // Assign the Web3Modal class to the reference object by setting it's `current` value
       // The `current` value is persisted throughout as long as this page is open
       web3ModalRef.current = new Web3Modal({
-        network: "rinkeby",
+        network: "goerli",
         providerOptions: {},
         disableInjectedProvider: false,
       });
